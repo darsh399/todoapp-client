@@ -3,14 +3,14 @@ import axios from 'axios';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './App.css';
+import { BASE_API_URL } from './api';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
-  const API_URL = 'http://localhost:5000';
 
   const fetchTodos = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/todos`);
+      const { data } = await axios.get(`${BASE_API_URL}/api/todos`);
       setTodos(data);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -23,7 +23,7 @@ const App = () => {
 
   const addTodo = async (newTodoTitle) => {
     try {
-      const { data } = await axios.post(`${API_URL}/api/todos`, {
+      const { data } = await axios.post(`${BASE_API_URL}/api/todos`, {
         text: newTodoTitle,
         completed: false,
       });
@@ -35,7 +35,7 @@ const App = () => {
 
   const updateTodo = async (id, updatedFields) => {
     try {
-      const { data } = await axios.put(`${API_URL}/api/todos/${id}`, updatedFields);
+      const { data } = await axios.put(`${BASE_API_URL}/api/todos/${id}`, updatedFields);
       setTodos(todos.map((todo) => (todo._id === id ? data : todo)));
     } catch (error) {
       console.error('Error updating todo:', error);
@@ -44,7 +44,7 @@ const App = () => {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`${API_URL}/api/todos/${id}`);
+      await axios.delete(`${BASE_API_URL}/api/todos/${id}`);
       setTodos(todos.filter((todo) => todo._id !== id));
     } catch (error) {
       console.error('Error deleting todo:', error);
